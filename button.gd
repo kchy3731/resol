@@ -9,7 +9,7 @@ func flash_up() -> void:
 func flash_down() -> void:
 	material_override = dim_material
 
-func flash(time: float = 0.5) -> void:
+func flash(time: float = 0.3) -> void:
 	flash_up()
 	await get_tree().create_timer(time).timeout
 	flash_down()

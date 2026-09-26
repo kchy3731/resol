@@ -1,0 +1,8 @@
+[gd_resource type="FontVariation" format=3 uid="uid://gojkqclntpet"]
+
+[ext_resource type="FontFile" uid="uid://c5u01f7k7plnh" path="res://assets/fonts/Alata/src/Alata-Regular.ttf" id="1_1y71s"]
+
+[resource]
+base_font = ExtResource("1_1y71s")
+variation_embolden = 1.2
+spacing_glyph = 4

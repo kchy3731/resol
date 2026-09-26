@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://bxkksh5w7sdds"]
 
-[ext_resource type="Script" uid="uid://dwft7nx33j2dt" path="res://main_3d.gd" id="1_dg77c"]
+[ext_resource type="Script" uid="uid://bnbkmc3wtlw5h" path="res://game.gd" id="1_dg77c"]
+[ext_resource type="Script" uid="uid://do60mst3fbhbt" path="res://simon.gd" id="1_h2yge"]
 [ext_resource type="Material" uid="uid://by7rp188dkh5q" path="res://assets/materials/base.tres" id="2_7mycd"]
 [ext_resource type="Script" uid="uid://cvsgo3hj7kj4a" path="res://simon_motion_fx.gd" id="2_efxa6"]
 [ext_resource type="Script" uid="uid://divkbh3g5io16" path="res://button.gd" id="3_1bvp3"]
@@ -12,10 +13,15 @@
 [ext_resource type="Material" uid="uid://c8smjkvh5txxy" path="res://assets/materials/green_lit.tres" id="7_dg77c"]
 [ext_resource type="Material" uid="uid://p6bh8u5dlh7w" path="res://assets/materials/yellow_lit.tres" id="9_ycdy4"]
 [ext_resource type="Material" uid="uid://cgq6o4471k0qa" path="res://assets/materials/blue_lit.tres" id="11_w48qg"]
+[ext_resource type="Theme" uid="uid://bidmopxgbhtln" path="res://theme.tres" id="13_ycdy4"]
 
 [sub_resource type="Environment" id="Environment_057v1"]
 background_mode = 1
-background_color = Color(0.8305671, 0.8619966, 0.8597012, 1)
+background_color = Color(0.83137256, 0.8627451, 0.85882354, 1)
+glow_intensity = 0.37
+glow_bloom = 0.22
+glow_hdr_scale = 1.32
+glow_hdr_luminance_cap = 33.11
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_60k71"]
 resource_name = "Base"
@@ -170,6 +176,10 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_x5cam")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dg77c"]
+shading_mode = 0
+albedo_color = Color(0.165, 0.55, 0.165, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_voacs"]
 resource_name = "Green.Dim"
@@ -361,38 +371,45 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_fd3wb")
 
 [node name="Node3D" type="Node3D" unique_id=1628286441]
+script = ExtResource("1_dg77c")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1817556914]
+unique_name_in_owner = true
 environment = SubResource("Environment_057v1")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=37526919]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.245419)
 fov = 64.2
 
-[node name="Simon" type="Node3D" parent="." unique_id=1576439590]
-transform = Transform3D(1, 0, 0, 0, 0.35778552, -0.9338038, 0, 0.9338038, 0.35778552, 0, 0, 0)
-script = ExtResource("1_dg77c")
-disabled_color = Color(0.5993406, 0.49058062, 0.35962126, 1)
-correct_color = Color(0, 1, 0.26666665, 1)
-incorrect_color = Color(0.52, 0, 0, 1)
+[node name="Simon" type="Node3D" parent="." unique_id=1576439590 node_paths=PackedStringArray("red_button", "green_button", "yellow_button", "blue_button", "red_ring", "green_ring", "yellow_ring", "blue_ring")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 0.35778552, -0.9338038, 0, 0.9338038, 0.35778552, 0, -0.7494614, 0)
+script = ExtResource("1_h2yge")
+red_button = NodePath("Mesh/Base/Red")
+green_button = NodePath("Mesh/Base/Green")
+yellow_button = NodePath("Mesh/Base/Yellow")
+blue_button = NodePath("Mesh/Base/Blue")
+red_ring = NodePath("Mesh/Base/Red_Ring")
+green_ring = NodePath("Mesh/Base/Green_Ring")
+yellow_ring = NodePath("Mesh/Base/Yellow_Ring")
+blue_ring = NodePath("Mesh/Base/Blue_Ring")
 
 [node name="MotionFX" type="Node" parent="Simon" unique_id=225199472 node_paths=PackedStringArray("base", "red_button", "green_button", "yellow_button", "blue_button")]
 script = ExtResource("2_efxa6")
-base = NodePath("../Export/Base")
-red_button = NodePath("../Export/Base/Red")
-green_button = NodePath("../Export/Base/Green")
-yellow_button = NodePath("../Export/Base/Yellow")
-blue_button = NodePath("../Export/Base/Blue")
+base = NodePath("../Mesh/Base")
+red_button = NodePath("../Mesh/Base/Red")
+green_button = NodePath("../Mesh/Base/Green")
+yellow_button = NodePath("../Mesh/Base/Yellow")
+blue_button = NodePath("../Mesh/Base/Blue")
 apex = 0.005
 
-[node name="Export" type="Node3D" parent="Simon" unique_id=60390735]
+[node name="Mesh" type="Node3D" parent="Simon" unique_id=60390735]
 
-[node name="Base" type="MeshInstance3D" parent="Simon/Export" unique_id=788543007]
-unique_name_in_owner = true
+[node name="Base" type="MeshInstance3D" parent="Simon/Mesh" unique_id=788543007]
 material_override = ExtResource("2_7mycd")
 mesh = SubResource("ArrayMesh_1ogyu")
 
-[node name="Red" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=53519699]
+[node name="Red" type="MeshInstance3D" parent="Simon/Mesh/Base" unique_id=53519699]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.166121, 0)
 material_override = ExtResource("3_272bh")
@@ -401,7 +418,7 @@ script = ExtResource("3_1bvp3")
 lit_material = ExtResource("5_efxa6")
 dim_material = ExtResource("3_272bh")
 
-[node name="Red_Ring" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=2091574905]
+[node name="Red_Ring" type="MeshInstance3D" parent="Simon/Mesh/Base" unique_id=2091574905]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.037986524, 0)
 material_override = ExtResource("3_272bh")
@@ -410,7 +427,7 @@ script = ExtResource("3_1bvp3")
 lit_material = ExtResource("5_efxa6")
 dim_material = ExtResource("3_272bh")
 
-[node name="Green" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=565627898]
+[node name="Green" type="MeshInstance3D" parent="Simon/Mesh/Base" unique_id=565627898]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.166121, 0)
 material_override = ExtResource("4_5vw27")
@@ -419,16 +436,16 @@ script = ExtResource("3_1bvp3")
 lit_material = ExtResource("7_dg77c")
 dim_material = ExtResource("4_5vw27")
 
-[node name="Green_Ring" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=1356530303]
+[node name="Green_Ring" type="MeshInstance3D" parent="Simon/Mesh/Base" unique_id=1356530303]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.03798652, 0)
-material_override = ExtResource("4_5vw27")
+material_override = SubResource("StandardMaterial3D_dg77c")
 mesh = SubResource("ArrayMesh_2tw4a")
 script = ExtResource("3_1bvp3")
 lit_material = ExtResource("7_dg77c")
 dim_material = ExtResource("4_5vw27")
 
-[node name="Yellow" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=353590819]
+[node name="Yellow" type="MeshInstance3D" parent="Simon/Mesh/Base" unique_id=353590819]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.166121, 0)
 material_override = ExtResource("5_kek77")
@@ -437,7 +454,7 @@ script = ExtResource("3_1bvp3")
 lit_material = ExtResource("9_ycdy4")
 dim_material = ExtResource("5_kek77")
 
-[node name="Yellow_Ring" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=818604905]
+[node name="Yellow_Ring" type="MeshInstance3D" parent="Simon/Mesh/Base" unique_id=818604905]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0000005, 0.03798652, 0)
 material_override = ExtResource("5_kek77")
@@ -446,7 +463,7 @@ script = ExtResource("3_1bvp3")
 lit_material = ExtResource("9_ycdy4")
 dim_material = ExtResource("5_kek77")
 
-[node name="Blue" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=347768033]
+[node name="Blue" type="MeshInstance3D" parent="Simon/Mesh/Base" unique_id=347768033]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.166121, -3.7252903e-09)
 material_override = ExtResource("6_4c57u")
@@ -455,7 +472,7 @@ script = ExtResource("3_1bvp3")
 lit_material = ExtResource("11_w48qg")
 dim_material = ExtResource("6_4c57u")
 
-[node name="Blue_Ring" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=455771371]
+[node name="Blue_Ring" type="MeshInstance3D" parent="Simon/Mesh/Base" unique_id=455771371]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.03798652, 0)
 material_override = ExtResource("6_4c57u")
@@ -471,3 +488,70 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("13_ycdy4")
+
+[node name="RulesContainer" type="Control" parent="Control" unique_id=2001177410]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -300.0
+offset_top = 97.0
+offset_right = 300.0
+offset_bottom = 217.0
+grow_horizontal = 2
+
+[node name="VFlowContainer" type="VFlowContainer" parent="Control/RulesContainer" unique_id=1853819824]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 63.0
+offset_bottom = 47.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+last_wrap_alignment = 2
+
+[node name="Label" type="Label" parent="Control/RulesContainer/VFlowContainer" unique_id=461635451]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.7411765, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "  Red  "
+
+[node name="Label2" type="Label" parent="Control/RulesContainer/VFlowContainer" unique_id=1929356246]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6666667, 0.6627451, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "  Blue  "
+
+[node name="TimerContainer" type="Control" parent="Control" unique_id=1124561987]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -320.0
+offset_bottom = 180.0
+grow_horizontal = 0
+
+[node name="Label" type="Label" parent="Control/TimerContainer" unique_id=1582662004]
+layout_mode = 0
+offset_left = 122.0
+offset_top = 31.0
+offset_right = 182.0
+offset_bottom = 54.0
+text = "STOPW."
+
+[node name="Timer" type="Label" parent="Control/TimerContainer" unique_id=1571408765]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 33.0
+offset_right = 228.0
+offset_bottom = 132.0
+theme_override_font_sizes/font_size = 72
+text = "90.0s"

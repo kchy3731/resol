@@ -26,23 +26,15 @@ func _process(_delta: float) -> void:
 	if (Input.is_action_pressed("game_red")):
 		rotation_delta.y -= 0.25
 		position_delta.z -= 0.1
-		red_button.position.y = 0.066
-	else: red_button.position.y = 0.166
 	if (Input.is_action_pressed("game_green")):
 		rotation_delta.y -= 0.1
 		position_delta.z -= 0.1
-		green_button.position.y = 0.066
-	else: green_button.position.y = 0
 	if (Input.is_action_pressed("game_yellow")):
 		rotation_delta.y += 0.1
 		position_delta.z -= 0.1
-		yellow_button.position.y = 0.066
-	else: yellow_button.position.y = 0.166
 	if (Input.is_action_pressed("game_blue")):
 		rotation_delta.y += 0.25
 		position_delta.z -= 0.1
-		blue_button.position.y = 0.066
-	else: blue_button.position.y = 0.166
 
 	var target_position = base_position + position_delta
 	var target_rotation = base_rotation + rotation_delta
