@@ -1,9 +1,9 @@
-extends Control
+extends Node
 
-@export var red_button: TextureRect
-@export var green_button: TextureRect
-@export var yellow_button: TextureRect
-@export var blue_button: TextureRect
+@export var red_button: MeshInstance3D
+@export var green_button: MeshInstance3D
+@export var yellow_button: MeshInstance3D
+@export var blue_button: MeshInstance3D
 
 func _process(_delta: float) -> void:
 	if (Input.is_action_just_pressed("game_red")):

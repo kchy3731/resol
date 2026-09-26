@@ -1,13 +1,10 @@
-extends TextureRect
+extends MeshInstance3D
 
-@export var color: Color
+@export var lit_material: StandardMaterial3D
+@export var dim_material: StandardMaterial3D
 
 func flash_up() -> void:
-	var tween = get_tree().create_tween()
-	# tween.tween_property(self, "scale", Vector2(1.2, 1.2), 0.01)
-	tween.tween_property(self, "self_modulate", color * 10, 0.03)
+	material_override = lit_material
 
 func flash_down() -> void:
-	var tween = get_tree().create_tween()
-	# tween.tween_property(self, "scale", Vector2(1.0, 1.0), 0.05)
-	tween.tween_property(self, "self_modulate", color, 0.01)
+	material_override = dim_material
