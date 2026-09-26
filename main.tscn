@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bxkksh5w7sdds"]
+
+[ext_resource type="PackedScene" uid="uid://dwf65joclth87" path="res://simon.tscn" id="1_1bvp3"]
+
+[sub_resource type="Environment" id="Environment_057v1"]
+background_mode = 1
+background_color = Color(0.8305671, 0.8619966, 0.8597012, 1)
+
+[node name="Node3D" type="Node3D" unique_id=1628286441]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1817556914]
+environment = SubResource("Environment_057v1")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=37526919]
+transform = Transform3D(1, 0, 0, 0, 0.8516384, 0.5241298, 0, -0.5241298, 0.8516384, 0, 3.076064, 4.942048)
+fov = 14.3
+
+[node name="Export" parent="." unique_id=1576439590 instance=ExtResource("1_1bvp3")]
+transform = Transform3D(0.1, 0, 0, 0, 0.05093195, -0.08605775, 0, 0.08605775, 0.05093195, 0, 0, 0)
+
+[node name="Control" type="Control" parent="." unique_id=1960306002]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
