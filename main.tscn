@@ -1,0 +1,80 @@
+[gd_scene format=3 uid="uid://bxkksh5w7sdds"]
+
+[ext_resource type="Script" uid="uid://do60mst3fbhbt" path="res://simon.gd" id="1_h2yge"]
+[ext_resource type="Texture2D" uid="uid://qqk45qgp4w6q" path="res://icon.svg" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://divkbh3g5io16" path="res://button.gd" id="3_1bvp3"]
+
+[node name="Control" type="Control" unique_id=1960306002]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1073277151]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Simon" type="Control" parent="." unique_id=446069653 node_paths=PackedStringArray("red_button", "green_button", "yellow_button", "blue_button")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -127.0
+offset_right = 300.0
+offset_bottom = 127.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_h2yge")
+red_button = NodePath("VFlowContainer/Red")
+green_button = NodePath("VFlowContainer/Green")
+yellow_button = NodePath("VFlowContainer/Yellow")
+blue_button = NodePath("VFlowContainer/Blue")
+
+[node name="VFlowContainer" type="VFlowContainer" parent="Simon" unique_id=925257557]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -262.0
+offset_right = 262.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Red" type="TextureRect" parent="Simon/VFlowContainer" unique_id=1811530087]
+self_modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+texture = ExtResource("1_ig7tw")
+script = ExtResource("3_1bvp3")
+color = Color(1, 0, 0, 1)
+
+[node name="Green" type="TextureRect" parent="Simon/VFlowContainer" unique_id=1184916821]
+self_modulate = Color(0, 1, 0, 1)
+layout_mode = 2
+texture = ExtResource("1_ig7tw")
+script = ExtResource("3_1bvp3")
+color = Color(0, 1, 0, 1)
+
+[node name="Yellow" type="TextureRect" parent="Simon/VFlowContainer" unique_id=1757123781]
+self_modulate = Color(1, 1, 0, 1)
+layout_mode = 2
+texture = ExtResource("1_ig7tw")
+script = ExtResource("3_1bvp3")
+color = Color(1, 1, 0, 1)
+
+[node name="Blue" type="TextureRect" parent="Simon/VFlowContainer" unique_id=1908623471]
+self_modulate = Color(0, 0, 1, 1)
+layout_mode = 2
+texture = ExtResource("1_ig7tw")
+script = ExtResource("3_1bvp3")
+color = Color(0, 0, 1, 1)
