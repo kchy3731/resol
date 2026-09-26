@@ -2,6 +2,8 @@ extends Node
 
 signal button_pressed(button_idx: int)
 
+@onready var raycast: RayCast3D = $RayCast3D
+@onready var camera: Camera3D = $Camera3D
 @onready var world: WorldEnvironment = %WorldEnvironment
 @onready var simon: Node = %Simon
 
@@ -11,11 +13,15 @@ signal button_pressed(button_idx: int)
 @onready var rings: Array[SimonButton] = [
 	%Red_Ring, %Green_Ring, %Yellow_Ring, %Blue_Ring
 ]
+@onready var areas: Array[Area3D] = [
+	%Red_Area, %Green_Area, %Yellow_Area, %Blue_Area
+]
 
 var input_action_names: Array[String] = [
 	"game_red", "game_green", "game_yellow", "game_blue"
 ]
 
+var clicked_button: int = -1
 var ruleset := Ruleset.new()
 
 func _flash_correct() -> void:
@@ -66,13 +72,34 @@ func do_sequence(sequence: Array[int]) -> bool:
 	await _flash_correct()
 	return true
 
+func raycast_button(vec: Vector2) -> int:
+	raycast.position = camera.project_ray_origin(vec)
+	raycast.target_position = 20.0 * camera.project_ray_normal(vec)
+	raycast.force_raycast_update()
+	if raycast.is_colliding():
+		var idx := areas.find(raycast.get_collider())
+		return idx
+	return -1
 
 func _input(event: InputEvent) -> void:
 	for i in range(input_action_names.size()):
 		if event.is_action_pressed(input_action_names[i]):
 			button_pressed.emit(i)
+			return
+	
+	if event.is_action_pressed("click"):
+		var idx := raycast_button(get_viewport().get_mouse_position())
+		if idx == -1:
+			return
+		clicked_button = idx
+		Input.action_press(input_action_names[idx])
+		button_pressed.emit(idx)
+	elif event.is_action_released("click") and clicked_button != -1:
+		Input.action_release(input_action_names[clicked_button])
+		clicked_button = -1
 
 func _ready() -> void:
+	raycast.position = camera.position
 	run()
 
 func run() -> void:
@@ -86,3 +113,6 @@ func _process(_delta: float) -> void:
 		await _flash_correct()
 	if Input.is_action_just_pressed("DEBUG_r"):
 		await _flash_incorrect()
+
+func _physics_process(_delta: float) -> void:
+	pass
