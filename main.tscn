@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://bxkksh5w7sdds"]
 
-[ext_resource type="Script" uid="uid://do60mst3fbhbt" path="res://simon.gd" id="1_h2yge"]
+[ext_resource type="Script" uid="uid://dwft7nx33j2dt" path="res://main_3d.gd" id="1_dg77c"]
 [ext_resource type="Material" uid="uid://by7rp188dkh5q" path="res://assets/materials/base.tres" id="2_7mycd"]
 [ext_resource type="Script" uid="uid://cvsgo3hj7kj4a" path="res://simon_motion_fx.gd" id="2_efxa6"]
 [ext_resource type="Script" uid="uid://divkbh3g5io16" path="res://button.gd" id="3_1bvp3"]
@@ -369,13 +369,12 @@ environment = SubResource("Environment_057v1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.245419)
 fov = 64.2
 
-[node name="Simon" type="Node3D" parent="." unique_id=1576439590 node_paths=PackedStringArray("red_button", "green_button", "yellow_button", "blue_button")]
+[node name="Simon" type="Node3D" parent="." unique_id=1576439590]
 transform = Transform3D(1, 0, 0, 0, 0.35778552, -0.9338038, 0, 0.9338038, 0.35778552, 0, 0, 0)
-script = ExtResource("1_h2yge")
-red_button = NodePath("Export/Base/Red")
-green_button = NodePath("Export/Base/Green")
-yellow_button = NodePath("Export/Base/Yellow")
-blue_button = NodePath("Export/Base/Blue")
+script = ExtResource("1_dg77c")
+disabled_color = Color(0.5993406, 0.49058062, 0.35962126, 1)
+correct_color = Color(0, 1, 0.26666665, 1)
+incorrect_color = Color(0.52, 0, 0, 1)
 
 [node name="MotionFX" type="Node" parent="Simon" unique_id=225199472 node_paths=PackedStringArray("base")]
 script = ExtResource("2_efxa6")
@@ -385,10 +384,12 @@ apex = 0.005
 [node name="Export" type="Node3D" parent="Simon" unique_id=60390735]
 
 [node name="Base" type="MeshInstance3D" parent="Simon/Export" unique_id=788543007]
+unique_name_in_owner = true
 material_override = ExtResource("2_7mycd")
 mesh = SubResource("ArrayMesh_1ogyu")
 
 [node name="Red" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=53519699]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.166121, 0)
 material_override = ExtResource("3_272bh")
 mesh = SubResource("ArrayMesh_bb0vw")
@@ -397,11 +398,16 @@ lit_material = ExtResource("5_efxa6")
 dim_material = ExtResource("3_272bh")
 
 [node name="Red_Ring" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=2091574905]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0.037986524, 0)
 material_override = ExtResource("3_272bh")
 mesh = SubResource("ArrayMesh_wr638")
+script = ExtResource("3_1bvp3")
+lit_material = ExtResource("5_efxa6")
+dim_material = ExtResource("3_272bh")
 
 [node name="Green" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=565627898]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.166121, 0)
 material_override = ExtResource("4_5vw27")
 mesh = SubResource("ArrayMesh_si3pr")
@@ -410,11 +416,16 @@ lit_material = ExtResource("7_dg77c")
 dim_material = ExtResource("4_5vw27")
 
 [node name="Green_Ring" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=1356530303]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.03798652, 0)
 material_override = ExtResource("4_5vw27")
 mesh = SubResource("ArrayMesh_2tw4a")
+script = ExtResource("3_1bvp3")
+lit_material = ExtResource("7_dg77c")
+dim_material = ExtResource("4_5vw27")
 
 [node name="Yellow" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=353590819]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.166121, 0)
 material_override = ExtResource("5_kek77")
 mesh = SubResource("ArrayMesh_f8nqi")
@@ -423,11 +434,16 @@ lit_material = ExtResource("9_ycdy4")
 dim_material = ExtResource("5_kek77")
 
 [node name="Yellow_Ring" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=818604905]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0000005, 0.03798652, 0)
 material_override = ExtResource("5_kek77")
 mesh = SubResource("ArrayMesh_edtfb")
+script = ExtResource("3_1bvp3")
+lit_material = ExtResource("9_ycdy4")
+dim_material = ExtResource("5_kek77")
 
 [node name="Blue" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=347768033]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.166121, -3.7252903e-09)
 material_override = ExtResource("6_4c57u")
 mesh = SubResource("ArrayMesh_yjpxt")
@@ -436,9 +452,13 @@ lit_material = ExtResource("11_w48qg")
 dim_material = ExtResource("6_4c57u")
 
 [node name="Blue_Ring" type="MeshInstance3D" parent="Simon/Export/Base" unique_id=455771371]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0.03798652, 0)
 material_override = ExtResource("6_4c57u")
 mesh = SubResource("ArrayMesh_clg4m")
+script = ExtResource("3_1bvp3")
+lit_material = ExtResource("11_w48qg")
+dim_material = ExtResource("6_4c57u")
 
 [node name="Control" type="Control" parent="." unique_id=1960306002]
 layout_mode = 3

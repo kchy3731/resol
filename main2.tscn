@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bxkksh5w7sdds"]
 
-[ext_resource type="Script" uid="uid://biysls0bgble8" path="res://main.gd" id="1_dmrlw"]
+[ext_resource type="Script" uid="uid://biysls0bgble8" path="res://main_2d.gd" id="1_dmrlw"]
 [ext_resource type="Script" uid="uid://b0dlf7ebfraos" path="res://color_button.gd" id="2_8ce7h"]
 
 [node name="Main" type="Control" unique_id=1952807283]
@@ -123,3 +123,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0.5805, 0.81, 1)
+
+[node name="RulesControl" type="Control" parent="." unique_id=1912624009]
+anchors_preset = 0
+offset_left = 83.0
+offset_top = 50.0
+offset_right = 424.0
+offset_bottom = 238.0

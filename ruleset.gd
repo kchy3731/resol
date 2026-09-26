@@ -45,5 +45,9 @@ func check(want: int, got: int) -> bool:
 func get_broken_rule() -> int:
 	return broken_rule
 
-func draw(node: CanvasItem, pos: Vector2) -> void:
-	node.draw_rect(Rect2(pos, Vector2(100, 00)), Color.WHITE)
+func draw(node: Control, color_names: Array[String], font: Font) -> void:
+	var y := 0.0
+	for i in range(num_rules):
+		var fmtvars = [color_names[from_arr[i]], color_names[to_arr[i]]]
+		node.draw_string(font, Vector2(0, y), "from %s to %s" % fmtvars)
+		y += 20.0
