@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://dwf65joclth87"]
-
-[ext_resource type="PackedScene" uid="uid://bpepj50f08rnk" path="res://assets/simon.glb" id="1_it25k"]
-
-[node name="Export" unique_id=1576439590 instance=ExtResource("1_it25k")]
