@@ -377,9 +377,13 @@ green_button = NodePath("Export/Base/Green")
 yellow_button = NodePath("Export/Base/Yellow")
 blue_button = NodePath("Export/Base/Blue")
 
-[node name="MotionFX" type="Node" parent="Simon" unique_id=225199472 node_paths=PackedStringArray("base")]
+[node name="MotionFX" type="Node" parent="Simon" unique_id=225199472 node_paths=PackedStringArray("base", "red_button", "green_button", "yellow_button", "blue_button")]
 script = ExtResource("2_efxa6")
 base = NodePath("../Export/Base")
+red_button = NodePath("../Export/Base/Red")
+green_button = NodePath("../Export/Base/Green")
+yellow_button = NodePath("../Export/Base/Yellow")
+blue_button = NodePath("../Export/Base/Blue")
 apex = 0.005
 
 [node name="Export" type="Node3D" parent="Simon" unique_id=60390735]
