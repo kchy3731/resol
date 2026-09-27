@@ -144,7 +144,7 @@ func _on_time_out() -> void:
 
 func _process(_delta: float) -> void:
 	%TimerLabel.text = "%.1f" % game_timer.time_left
-	if Input.is_action_just_pressed("DEBUG_y"):
-		_add_time(5)
-	if Input.is_action_just_pressed("DEBUG_r"):
-		_lose_time(5)
+	#if Input.is_action_just_pressed("DEBUG_y"):
+		#_add_time(5)
+	#if Input.is_action_just_pressed("DEBUG_r"):
+		#_lose_time(5)
