@@ -1,7 +1,11 @@
 [gd_resource type="Theme" format=3 uid="uid://bidmopxgbhtln"]
 
+[ext_resource type="FontVariation" uid="uid://gojkqclntpet" path="res://assets/fonts/AlataBig.tres" id="1_cjfk0"]
 [ext_resource type="FontFile" uid="uid://c5u01f7k7plnh" path="res://assets/fonts/Alata/src/Alata-Regular.ttf" id="1_e1x85"]
 
 [resource]
 default_font = ExtResource("1_e1x85")
 Label/colors/font_color = Color(0, 0, 0, 1)
+RuleLabel/base_type = &"Label"
+RuleLabel/font_sizes/font_size = 42
+RuleLabel/fonts/font = ExtResource("1_cjfk0")

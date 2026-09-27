@@ -1,10 +1,10 @@
 [gd_scene format=4 uid="uid://bxkksh5w7sdds"]
 
-[ext_resource type="Script" uid="uid://bnbkmc3wtlw5h" path="res://game.gd" id="1_dg77c"]
-[ext_resource type="Script" uid="uid://do60mst3fbhbt" path="res://simon.gd" id="1_h2yge"]
+[ext_resource type="Script" uid="uid://bnbkmc3wtlw5h" path="res://scripts/game.gd" id="1_dg77c"]
+[ext_resource type="Script" uid="uid://do60mst3fbhbt" path="res://scripts/simon.gd" id="1_h2yge"]
 [ext_resource type="Material" uid="uid://by7rp188dkh5q" path="res://assets/materials/base.tres" id="2_7mycd"]
-[ext_resource type="Script" uid="uid://cvsgo3hj7kj4a" path="res://simon_motion_fx.gd" id="2_efxa6"]
-[ext_resource type="Script" uid="uid://divkbh3g5io16" path="res://button.gd" id="3_1bvp3"]
+[ext_resource type="Script" uid="uid://cvsgo3hj7kj4a" path="res://scripts/simon_motion_fx.gd" id="2_efxa6"]
+[ext_resource type="Script" uid="uid://divkbh3g5io16" path="res://scripts/button.gd" id="3_1bvp3"]
 [ext_resource type="Material" uid="uid://cwvga8xpd64ly" path="res://assets/materials/red_unlit.tres" id="3_272bh"]
 [ext_resource type="Material" uid="uid://c06wllptspqy8" path="res://assets/materials/green_unlit.tres" id="4_5vw27"]
 [ext_resource type="Material" uid="uid://13rxlln4v8th" path="res://assets/materials/red_lit.tres" id="5_efxa6"]
@@ -14,6 +14,8 @@
 [ext_resource type="Material" uid="uid://p6bh8u5dlh7w" path="res://assets/materials/yellow_lit.tres" id="9_ycdy4"]
 [ext_resource type="Material" uid="uid://cgq6o4471k0qa" path="res://assets/materials/blue_lit.tres" id="11_w48qg"]
 [ext_resource type="Theme" uid="uid://bidmopxgbhtln" path="res://theme.tres" id="13_ycdy4"]
+[ext_resource type="Script" uid="uid://df6qi7w3785dk" path="res://rules_control.gd" id="15_vivmo"]
+[ext_resource type="Shader" uid="uid://dq21mqfytk74s" path="res://postprocess.gdshader" id="16_2cqfq"]
 
 [sub_resource type="Environment" id="Environment_057v1"]
 background_mode = 1
@@ -382,7 +384,13 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_fd3wb")
 
-[node name="Node3D" type="Node3D" unique_id=1628286441]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yclg4"]
+shader = ExtResource("16_2cqfq")
+shader_parameter/cell_size = 7.000000095
+shader_parameter/compensate = 0.4650000220875
+shader_parameter/soft = 0.5
+
+[node name="Game" type="Node3D" unique_id=1628286441]
 script = ExtResource("1_dg77c")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1817556914]
@@ -433,7 +441,7 @@ shape = SubResource("ConcavePolygonShape3D_yaehf")
 
 [node name="Simon" type="Node3D" parent="." unique_id=1576439590 node_paths=PackedStringArray("red_button", "green_button", "yellow_button", "blue_button", "red_ring", "green_ring", "yellow_ring", "blue_ring")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 0.35778552, -0.9338038, 0, 0.9338038, 0.35778552, 0, -0.7494614, 0)
+transform = Transform3D(1, 0, 0, 0, 0.35778552, -0.9338038, 0, 0.9338038, 0.35778552, 0, 0, 0)
 script = ExtResource("1_h2yge")
 red_button = NodePath("Mesh/Base/Red")
 green_button = NodePath("Mesh/Base/Green")
@@ -540,45 +548,31 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("13_ycdy4")
 
-[node name="RulesContainer" type="Control" parent="Control" unique_id=2001177410]
-visible = false
+[node name="RulesControl" type="Control" parent="Control" unique_id=2146970601]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -300.0
-offset_top = 97.0
-offset_right = 300.0
-offset_bottom = 217.0
+offset_left = -342.0
+offset_top = 106.0
+offset_right = 342.0
+offset_bottom = 255.0
 grow_horizontal = 2
+script = ExtResource("15_vivmo")
 
-[node name="VFlowContainer" type="VFlowContainer" parent="Control/RulesContainer" unique_id=1853819824]
+[node name="RulesContainer" type="HFlowContainer" parent="Control" unique_id=1118076745]
+unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 5
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 63.0
-offset_bottom = 47.0
+offset_left = -337.5
+offset_top = 142.0
+offset_right = 337.5
+offset_bottom = 224.0
 grow_horizontal = 2
-grow_vertical = 2
 alignment = 1
-last_wrap_alignment = 2
-
-[node name="Label" type="Label" parent="Control/RulesContainer/VFlowContainer" unique_id=461635451]
-layout_mode = 2
-theme_override_colors/font_color = Color(0, 0.7411765, 0, 1)
-theme_override_font_sizes/font_size = 48
-text = "  Red  "
-
-[node name="Label2" type="Label" parent="Control/RulesContainer/VFlowContainer" unique_id=1929356246]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.6666667, 0.6627451, 0, 1)
-theme_override_font_sizes/font_size = 48
-text = "  Blue  "
 
 [node name="TimerContainer" type="Control" parent="Control" unique_id=1124561987]
 layout_mode = 1
@@ -597,7 +591,8 @@ offset_right = 182.0
 offset_bottom = 54.0
 text = "STOPW."
 
-[node name="Timer" type="Label" parent="Control/TimerContainer" unique_id=1571408765]
+[node name="TimerLabel" type="Label" parent="Control/TimerContainer" unique_id=1571408765]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 50.0
 offset_top = 33.0
@@ -605,3 +600,44 @@ offset_right = 228.0
 offset_bottom = 132.0
 theme_override_font_sizes/font_size = 72
 text = "90.0s"
+
+[node name="ScoreContainer" type="Control" parent="Control" unique_id=1070441037]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -181.0
+offset_right = 240.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ScoreLabel" type="Label" parent="Control/ScoreContainer" unique_id=1486649735]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -74.0
+offset_top = -163.0
+offset_right = 74.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 72
+text = "0"
+horizontal_alignment = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Control" unique_id=2089363583]
+
+[node name="ColorRect" type="ColorRect" parent="Control/CanvasLayer" unique_id=199259855]
+material = SubResource("ShaderMaterial_yclg4")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
