@@ -6,6 +6,8 @@ var go_around: int = 0
 var current_sequence: Array[int] = []
 var running: bool = false
 
+var pause_game: bool = false
+
 var inputs: Array[StringName] = ["game_red", "game_green", "game_yellow", "game_blue"]
 @onready var buttons: Array
 @onready var rings: Array
@@ -20,7 +22,6 @@ signal new_rule(from: int, to: int)
 func _ready() -> void:
 	buttons = $"Base/Buttons".get_children()
 	rings = $"Base/Rings".get_children()
-	# run_game()
 
 func _flash_up_all() -> void:
 	for ring in rings:
@@ -47,10 +48,6 @@ func _process_input() -> void:
 			buttons[i].flash_down()
 			button_pressed.emit(i)
 
-	if Input.is_action_just_pressed("DEBUG_y"):
-		_introduce_rule()
-	if Input.is_action_just_pressed("DEBUG_r"):
-		flash_incorrect()
 
 func _introduce_rule() -> void:
 	var rule = ruleset.produce_rule() # [from, to]
@@ -95,9 +92,8 @@ func do_sequence(sequence: Array[int]) -> bool:
 	return true
 
 func run_game() -> void:
-	running = true
-	await get_tree().create_timer(2).timeout
 	while true:
+		if pause_game: await get_tree().create_timer(0.1).timeout
 		@warning_ignore("integer_division")
 		current_sequence = make_sequence(3 + max(streak / 2 - 3, 0))
 		if go_around > 0 and streak != 0 and score % 2 == 0:

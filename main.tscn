@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://cqp204o6kg084" path="res://scripts/input_handler.gd" id="15_yaehf"]
 [ext_resource type="Shader" uid="uid://dq21mqfytk74s" path="res://postprocess.gdshader" id="16_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://vh37iae3l3fk" path="res://ui/main_menu.tscn" id="16_074og"]
+[ext_resource type="Script" uid="uid://dr8j2oqa1a5pk" path="res://timer_update_container.gd" id="16_yaehf"]
 
 [sub_resource type="Environment" id="Environment_057v1"]
 background_mode = 1
@@ -383,6 +384,11 @@ shader_parameter/soft = 0.5
 [node name="Game" type="Node3D" unique_id=1628286441]
 script = ExtResource("1_dg77c")
 
+[node name="GameTimer" type="Timer" parent="." unique_id=919197068]
+unique_name_in_owner = true
+wait_time = 90.0
+one_shot = true
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1817556914]
 unique_name_in_owner = true
 environment = SubResource("Environment_057v1")
@@ -543,7 +549,7 @@ offset_left = -320.0
 offset_bottom = 180.0
 grow_horizontal = 0
 
-[node name="Label" type="Label" parent="Control/TimerContainer" unique_id=1582662004]
+[node name="StopwLabel" type="Label" parent="Control/TimerContainer" unique_id=1582662004]
 layout_mode = 0
 offset_left = 122.0
 offset_top = 31.0
@@ -554,12 +560,20 @@ text = "STOPW."
 [node name="TimerLabel" type="Label" parent="Control/TimerContainer" unique_id=1571408765]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 50.0
-offset_top = 33.0
-offset_right = 228.0
-offset_bottom = 132.0
-theme_override_font_sizes/font_size = 72
-text = "90.0s"
+offset_left = 48.0
+offset_top = 31.0
+offset_right = 268.0
+offset_bottom = 142.0
+theme_override_font_sizes/font_size = 80
+
+[node name="TimerUpdate" type="Control" parent="Control/TimerContainer" unique_id=435876261]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = -67.0
+offset_top = 89.0
+offset_right = -27.0
+offset_bottom = 129.0
+script = ExtResource("16_yaehf")
 
 [node name="ScoreContainer" type="Control" parent="Control" unique_id=1070441037]
 layout_mode = 1
@@ -602,3 +616,5 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[connection signal="timeout" from="GameTimer" to="." method="_on_time_out"]
