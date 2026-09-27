@@ -75,7 +75,7 @@ func _on_new_rule(input: int, output: int) -> void:
 		%RulesControl.pop_label()
 	%RulesControl.draw()
 
-func _on_start_game() -> void:
+func _on_start_game(tutorial: bool) -> void:
 	if game_is_running: return
 	game_is_running = true
 	main_menu.hide()
@@ -86,7 +86,10 @@ func _on_start_game() -> void:
 	motion_fx.start()
 	await get_tree().create_timer(2.5).timeout
 	if not game_is_running: return
-	simon.run_game()
+	if tutorial:
+		simon.run_tutorial()
+	else:
+		simon.run_game()
 	simon.input_enabled = true
 
 func _ready() -> void:

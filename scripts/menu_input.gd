@@ -9,13 +9,13 @@ signal menu_tutorial
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("menu_start"):
-		game_start.emit()
+		game_start.emit(false)
 	elif event.is_action_pressed("menu_exit"):
 		menu_exit.emit()
 	elif event.is_action_pressed("menu_vfx"):
 		%EffectsRect.visible = not %EffectsRect.visible
 	elif event.is_action_pressed("menu_tutorial"):
-		pass # TODO
+		game_start.emit(true)
 
 func _process(_delta: float) -> void:
 	if Input.is_action_pressed("menu_vup"):
