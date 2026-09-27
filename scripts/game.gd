@@ -2,6 +2,7 @@ extends Node
 
 @onready var world: WorldEnvironment = %WorldEnvironment
 @onready var simon: Node = %Simon
+@onready var game_timer: Timer = %GameTimer
 
 const WORD_GUIDE: Dictionary[int, StringName] = {
 	0: "Red",
@@ -27,6 +28,18 @@ func _flash_incorrect() -> void:
 	await simon.flash_incorrect()
 	world.environment.background_color = Color(212/255.0, 220/255.0, 219/255.0)
 
+func _add_time(time: float) -> void:
+	%TimerUpdate.add_time(time)
+	var current_time := game_timer.time_left
+	game_timer.wait_time = current_time + time
+	game_timer.start()
+
+func _lose_time(time: float) -> void:
+	%TimerUpdate.lose_time(time)
+	var current_time := game_timer.time_left
+	game_timer.wait_time = current_time - time
+	game_timer.start()
+
 func _correct() -> void:
 	%ScoreLabel.text = str(simon.score)
 	_flash_correct()
@@ -51,8 +64,17 @@ func _ready() -> void:
 	simon.new_rule.connect(_on_new_rule)
 	simon.correct.connect(_correct)
 	simon.wrong.connect(_wrong)
+	await get_tree().create_timer(2).timeout
+	simon.run_game()
+	game_timer.start()
 	
-	%Simon.hide()
-	%MainMenu.show()
-	%TimerContainer.hide()
-	%ScoreLabel.hide()
+func _on_time_out() -> void:
+	# player loses here
+	pass
+
+func _process(_delta: float) -> void:
+	%TimerLabel.text = "%.1f" % game_timer.time_left
+	if Input.is_action_just_pressed("DEBUG_y"):
+		_add_time(5)
+	if Input.is_action_just_pressed("DEBUG_r"):
+		_lose_time(5)
