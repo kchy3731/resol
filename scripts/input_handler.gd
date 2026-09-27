@@ -13,8 +13,10 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("effects"):
 		%EffectsRect.visible = not %EffectsRect.visible
 	elif event.is_action_pressed("volume_up"):
-		pass # TODO
+		AudioServer.set_bus_volume_db(0, AudioServer.get_bus_volume_db(0) + 1)
 	elif event.is_action_pressed("volume_down"):
-		pass # TODO
+		AudioServer.set_bus_volume_db(0, AudioServer.get_bus_volume_db(0) - 1)
+	elif event.is_action_pressed("mute"):
+		AudioServer.set_bus_mute(0, not AudioServer.is_bus_mute(0))
 	elif event.is_action_pressed("tutorial"):
 		pass # TODO

@@ -70,6 +70,7 @@ func _hint() -> void:
 	while go_around == this_go_around:
 		for i in range(current_sequence.size()):
 			var button_idx := current_sequence[i]
+			%Sound.ring_sounds[button_idx].play()
 			await rings[button_idx].flash()
 			await get_tree().create_timer(0.1).timeout
 		await get_tree().create_timer(current_sequence.size() * 1.4).timeout
