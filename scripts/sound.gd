@@ -1,5 +1,7 @@
 extends Node
 
+var _volume_linear = 0.3
+
 var tones: Array[AudioStreamWAV] = [
 	preload("res://assets/sounds/tone0.wav"),
 	preload("res://assets/sounds/tone1.wav"),
@@ -57,9 +59,24 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	for i in range(4):
 		if event.is_action_pressed(%Simon.inputs[i]):
+			button_sounds[i].volume_db = _volume()
 			button_sounds[i].play()
+			keydown_sounds[i].volume_db = _volume()
 			keydown_sounds[i].play()
 			return
 		if event.is_action_released(%Simon.inputs[i]):
+			keyup_sounds[i].volume_db = _volume()
 			keyup_sounds[i].play()
 			return
+
+func volume_up() -> void:
+	_volume_linear = min(_volume_linear + 0.01, 1)
+	AudioServer.set_bus_volume_db(0, _volume())
+
+func volume_down() -> void:
+	_volume_linear = max(_volume_linear - 0.01, 0)
+	AudioServer.set_bus_volume_db(0, _volume())
+
+func _volume() -> float:
+	if (_volume_linear <= 0.0): return -100.0
+	return 20.0 * log(_volume_linear) / log(10)

@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://vh37iae3l3fk" path="res://ui/main_menu.tscn" id="16_074og"]
 [ext_resource type="Script" uid="uid://bye2xmi5ws3cj" path="res://screen_size.gd" id="16_getpj"]
 [ext_resource type="Script" uid="uid://dr8j2oqa1a5pk" path="res://timer_update_container.gd" id="16_yaehf"]
+[ext_resource type="Script" uid="uid://dpndjau56l76m" path="res://sound_bar.gd" id="22_d13ii"]
 
 [sub_resource type="Environment" id="Environment_057v1"]
 background_mode = 1
@@ -391,6 +392,9 @@ shader_parameter/soft = 0.5
 script = ExtResource("1_dg77c")
 game_time = 40.0
 
+[node name="Persistent" type="Node" parent="." unique_id=434070776]
+unique_name_in_owner = true
+
 [node name="SubViewport" type="SubViewport" parent="." unique_id=1630253912]
 transparent_bg = true
 canvas_item_default_texture_filter = 0
@@ -641,20 +645,53 @@ grow_vertical = 2
 theme = ExtResource("13_ycdy4")
 metadata/_edit_use_anchors_ = true
 
-[node name="SoundBar" type="Control" parent="Control" unique_id=833812799]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="ColorRect" type="ColorRect" parent="Control/SoundBar" unique_id=293601146]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
 [node name="MainMenu" parent="Control" unique_id=1502984440 instance=ExtResource("16_074og")]
 unique_name_in_owner = true
 layout_mode = 1
 script = ExtResource("15_yaehf")
+
+[node name="SoundBar" type="Control" parent="Control" unique_id=833812799]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("22_d13ii")
+
+[node name="ShowTimer" type="Timer" parent="Control/SoundBar" unique_id=168530477]
+wait_time = 2.0
+one_shot = true
+
+[node name="ColorRect" type="ColorRect" parent="Control/SoundBar" unique_id=293601146]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 136.0
+offset_top = -101.0
+offset_right = -136.0
+offset_bottom = -36.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0.13887927, 0.23631334, 1, 1)
+
+[node name="SoundBarLinear" type="ColorRect" parent="Control/SoundBar/ColorRect" unique_id=707557968]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -21.5
+offset_right = -10.0
+offset_bottom = 21.5
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Control" unique_id=2089363583]
 
@@ -670,3 +707,4 @@ grow_vertical = 2
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1582922208]
 
 [connection signal="timeout" from="GameTimer" to="." method="_on_time_out"]
+[connection signal="timeout" from="Control/SoundBar/ShowTimer" to="Control/SoundBar" method="hide_bar"]

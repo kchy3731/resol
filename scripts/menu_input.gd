@@ -14,9 +14,15 @@ func _input(event: InputEvent) -> void:
 		menu_exit.emit()
 	elif event.is_action_pressed("menu_vfx"):
 		%EffectsRect.visible = not %EffectsRect.visible
-	elif event.is_action_pressed("menu_vup"):
-		pass # TODO
-	elif event.is_action_pressed("menu_vdown"):
-		pass # TODO
 	elif event.is_action_pressed("menu_tutorial"):
 		pass # TODO
+
+func _process(_delta: float) -> void:
+	if Input.is_action_pressed("menu_vup"):
+		%Sound.volume_up()
+		%SoundBar.show_bar()
+		%SoundBarLinear.size.x = %Sound._volume_linear * 860
+	elif Input.is_action_pressed("menu_vdown"):
+		%Sound.volume_down()
+		%SoundBar.show_bar()
+		%SoundBarLinear.size.x = %Sound._volume_linear * 860

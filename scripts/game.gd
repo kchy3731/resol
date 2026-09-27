@@ -94,6 +94,12 @@ func _ready() -> void:
 	simon.correct.connect(_correct)
 	simon.wrong.connect(_wrong)
 	main_menu.game_start.connect(_on_start_game)
+	%Persistent.load_game()
+	if (%Persistent.played_tutorial):
+		pass # start tutorial
+	else:
+		pass # do nothing, show menu
+		
 	
 func _on_time_out() -> void:
 	if not game_is_running: return
