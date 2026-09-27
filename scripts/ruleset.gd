@@ -10,6 +10,8 @@ func _init(last: int = -1) -> void:
 
 func reset() -> void:
 	_rules = [0, 1, 2, 3]
+	iter = 0
+	_last = -1
 
 func add_rule(from: int, to: int) -> bool:
 	if _rules[from] == to:

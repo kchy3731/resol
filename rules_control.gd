@@ -40,6 +40,11 @@ func add_label(text: String, color: Color) -> void:
 func pop_label() -> void:
 	to_remove += 1
 
+func clear_rules() -> void:
+	for i in range(labels.size()):
+		pop_label()
+	draw()
+
 func draw() -> void:
 	_recompute_positions()
 	for i in range(labels.size()):
