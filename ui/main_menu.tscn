@@ -1,7 +1,5 @@
 [gd_scene format=3 uid="uid://vh37iae3l3fk"]
 
-[ext_resource type="Script" uid="uid://bjh5n5vmon4se" path="res://ui/main_menu.gd" id="1_t7e0r"]
-
 [node name="MainMenu" type="Control" unique_id=1502984440]
 layout_mode = 3
 anchors_preset = 15
@@ -9,7 +7,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_t7e0r")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1471263296]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.21410304, 0.21410304, 0.21410301, 1)
 
 [node name="Logo" type="RichTextLabel" parent="." unique_id=1691889928]
 visible = false
@@ -59,13 +65,20 @@ size_flags_vertical = 6
 theme_override_font_sizes/font_size = 32
 text = "Exit"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1589968660]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=917918803]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer" unique_id=1589968660]
+layout_mode = 2
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 text = "[color=red]R[/color][color=green]E[/color][color=yellow]S[/color][color=#66F]O[/color]L

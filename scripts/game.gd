@@ -29,7 +29,7 @@ func _flash_incorrect() -> void:
 
 func _correct() -> void:
 	%ScoreLabel.text = str(simon.score)
-	_flash_correct()	
+	_flash_correct()
 
 func _wrong() -> void:
 	%ScoreLabel.text = str(simon.score)
@@ -51,3 +51,8 @@ func _ready() -> void:
 	simon.new_rule.connect(_on_new_rule)
 	simon.correct.connect(_correct)
 	simon.wrong.connect(_wrong)
+	
+	%Simon.hide()
+	%MainMenu.show()
+	%TimerContainer.hide()
+	%ScoreLabel.hide()

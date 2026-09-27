@@ -4,6 +4,7 @@ var score: int = 0
 var streak: int = 0
 var go_around: int = 0
 var current_sequence: Array[int] = []
+var running: bool = false
 
 var inputs: Array[StringName] = ["game_red", "game_green", "game_yellow", "game_blue"]
 @onready var buttons: Array
@@ -19,7 +20,7 @@ signal new_rule(from: int, to: int)
 func _ready() -> void:
 	buttons = $"Base/Buttons".get_children()
 	rings = $"Base/Rings".get_children()
-	_run_game()
+	# run_game()
 
 func _flash_up_all() -> void:
 	for ring in rings:
@@ -93,7 +94,8 @@ func do_sequence(sequence: Array[int]) -> bool:
 	await flash_correct()
 	return true
 
-func _run_game() -> void:
+func run_game() -> void:
+	running = true
 	await get_tree().create_timer(2).timeout
 	while true:
 		@warning_ignore("integer_division")
@@ -103,6 +105,9 @@ func _run_game() -> void:
 		_hint()
 		await do_sequence(current_sequence)
 		await get_tree().create_timer(0.3).timeout
+
+func game_is_running() -> bool:
+	return running
 
 func _process(_delta: float) -> void:
 	_process_input()

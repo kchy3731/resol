@@ -15,7 +15,9 @@
 [ext_resource type="Material" uid="uid://cgq6o4471k0qa" path="res://assets/materials/blue_lit.tres" id="11_w48qg"]
 [ext_resource type="Theme" uid="uid://bidmopxgbhtln" path="res://theme.tres" id="13_ycdy4"]
 [ext_resource type="Script" uid="uid://df6qi7w3785dk" path="res://rules_control.gd" id="15_vivmo"]
+[ext_resource type="Script" uid="uid://cqp204o6kg084" path="res://scripts/input_handler.gd" id="15_yaehf"]
 [ext_resource type="Shader" uid="uid://dq21mqfytk74s" path="res://postprocess.gdshader" id="16_2cqfq"]
+[ext_resource type="PackedScene" uid="uid://vh37iae3l3fk" path="res://ui/main_menu.tscn" id="16_074og"]
 
 [sub_resource type="Environment" id="Environment_057v1"]
 background_mode = 1
@@ -492,6 +494,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("13_ycdy4")
+metadata/_edit_use_anchors_ = true
+
+[node name="InputHandler" type="Control" parent="Control" unique_id=1729584102]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("15_yaehf")
+
+[node name="MainMenu" parent="Control" unique_id=1502984440 instance=ExtResource("16_074og")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
 
 [node name="RulesControl" type="Control" parent="Control" unique_id=2146970601]
 unique_name_in_owner = true
@@ -520,6 +534,7 @@ grow_horizontal = 2
 alignment = 1
 
 [node name="TimerContainer" type="Control" parent="Control" unique_id=1124561987]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -579,7 +594,8 @@ horizontal_alignment = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Control" unique_id=2089363583]
 
-[node name="ColorRect" type="ColorRect" parent="Control/CanvasLayer" unique_id=199259855]
+[node name="EffectsRect" type="ColorRect" parent="Control/CanvasLayer" unique_id=199259855]
+unique_name_in_owner = true
 material = SubResource("ShaderMaterial_yclg4")
 anchors_preset = 15
 anchor_right = 1.0
