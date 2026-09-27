@@ -417,7 +417,7 @@ blue_button = NodePath("../Base/Buttons/Blue")
 apex = 0.005
 
 [node name="Base" type="MeshInstance3D" parent="Simon" unique_id=788543007]
-transform = Transform3D(1, 0, 0, 0, 0.9615311, -0.27469632, 0, 0.27469632, 0.9615311, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.9615311, -0.2746963, 0, 0.2746963, 0.9615311, 0, 0, 0)
 material_override = ExtResource("2_7mycd")
 mesh = SubResource("ArrayMesh_1ogyu")
 

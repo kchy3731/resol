@@ -93,6 +93,7 @@ func do_sequence(sequence: Array[int]) -> bool:
 	return true
 
 func run_game() -> void:
+	running = true
 	while true:
 		if pause_game: await get_tree().create_timer(0.1).timeout
 		@warning_ignore("integer_division")
@@ -102,6 +103,39 @@ func run_game() -> void:
 		_hint()
 		await do_sequence(current_sequence)
 		await get_tree().create_timer(0.3).timeout
+	running = false
+
+func _tutorial_do_sequence(sequence: Array[int]) -> void:
+	current_sequence = sequence
+	while true:
+		_hint()
+		var success := await do_sequence(sequence)
+		if success:
+			break
+		await get_tree().create_timer(0.3).timeout
+
+func _tutorial_add_rule(from: int, to: int) -> void:
+	ruleset.add_rule(from, to)
+	new_rule.emit(from, to)
+	await get_tree().create_timer(0.3).timeout
+
+func run_tutorial() -> void:
+	running = true
+	await _tutorial_do_sequence([2])
+	await _tutorial_do_sequence([1])
+	await _tutorial_do_sequence([0, 3])
+	await _tutorial_do_sequence([3, 1, 1])
+	await _tutorial_do_sequence([1, 0, 2])
+	
+	await get_tree().create_timer(0.4).timeout
+	
+	await _tutorial_add_rule(0, 2)
+	
+	await _tutorial_do_sequence([0])
+	await _tutorial_do_sequence([2, 0, 2])
+	await _tutorial_do_sequence([1, 2, 3])
+	await _tutorial_do_sequence([3, 0, 0])
+	running = false
 
 func game_is_running() -> bool:
 	return running

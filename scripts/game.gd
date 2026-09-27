@@ -60,13 +60,27 @@ func _on_new_rule(input: int, output: int) -> void:
 		%RulesControl.pop_label()
 	%RulesControl.draw()
 
+func show_main_menu() -> void:
+	%MainMenu.show()
+	%TimerContainer.hide()
+	%ScoreLabel.hide()
+	%Simon.hide()
+func hide_main_menu() -> void:
+	%MainMenu.hide()
+	%TimerContainer.show()
+	%ScoreLabel.show()
+	%Simon.show()
+
 func _ready() -> void:
 	simon.new_rule.connect(_on_new_rule)
 	simon.correct.connect(_correct)
 	simon.wrong.connect(_wrong)
-	await get_tree().create_timer(2).timeout
-	simon.run_game()
-	game_timer.start()
+	
+	show_main_menu()
+	#await get_tree().create_timer(2).timeout
+	#simon.run_game()
+	#game_timer.start()
+	#simon.run_tutorial()
 	
 func _on_time_out() -> void:
 	# player loses here
