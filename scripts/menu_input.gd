@@ -26,3 +26,9 @@ func _process(_delta: float) -> void:
 		%Sound.volume_down()
 		%SoundBar.show_bar()
 		%SoundBarLinear.size.x = %Sound._volume_linear * 860
+
+func _ready() -> void:
+	if %Persistent.high_score > 0:
+		%HighScoreLabel.text = "HIGH SCORE: %d" % %Persistent.high_score
+	else:
+		%HighScoreLabel.text = ""

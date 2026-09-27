@@ -21,6 +21,7 @@ signal button_pressed(idx: int)
 signal correct
 signal wrong
 signal new_rule(from: int, to: int)
+signal tutorial_done
 
 func _ready() -> void:
 	buttons = $"Base/Buttons".get_children()
@@ -131,15 +132,14 @@ func run_game() -> void:
 	reset_game = false
 	running = false
 
-func _tutorial_do_sequence(sequence: Array[int]) -> void:
+func _tutorial_do_sequence(sequence: Array[int], _game_round: int) -> void:
 	current_sequence = sequence
-	var round := 0
 	while true:
-		_hint(0)
-		var success := await do_sequence(sequence, round)
-		if success:
+		if reset_game or _game_round != game_round: return
+		_hint(_game_round)
+		var success := await do_sequence(sequence, _game_round)
+		if success or reset_game or _game_round != game_round:
 			break
-		round += 1
 		await get_tree().create_timer(0.3).timeout
 
 func _tutorial_add_rule(from: int, to: int) -> void:
@@ -149,20 +149,35 @@ func _tutorial_add_rule(from: int, to: int) -> void:
 
 func run_tutorial() -> void:
 	running = true
-	await _tutorial_do_sequence([2])
-	await _tutorial_do_sequence([1])
-	await _tutorial_do_sequence([0, 3])
-	await _tutorial_do_sequence([3, 1, 1])
-	await _tutorial_do_sequence([1, 0, 2])
+	var _game_round := game_round
+	await _tutorial_do_sequence([2], _game_round)
+	if _game_round != game_round: return
+	await _tutorial_do_sequence([1], _game_round)
+	if _game_round != game_round: return
+	await _tutorial_do_sequence([0, 3], _game_round)
+	if _game_round != game_round: return
+	await _tutorial_do_sequence([3, 1, 1], _game_round)
+	if _game_round != game_round: return
+	await _tutorial_do_sequence([1, 0, 2], _game_round)
+	if _game_round != game_round: return
 	
 	await get_tree().create_timer(0.4).timeout
+	if _game_round != game_round: return
 	
 	await _tutorial_add_rule(0, 2)
+	if _game_round != game_round: return
 	
-	await _tutorial_do_sequence([0])
-	await _tutorial_do_sequence([2, 0, 2])
-	await _tutorial_do_sequence([1, 2, 3])
-	await _tutorial_do_sequence([3, 0, 0])
+	await _tutorial_do_sequence([0], _game_round)
+	if _game_round != game_round: return
+	await _tutorial_do_sequence([2, 0, 2], _game_round)
+	if _game_round != game_round: return
+	await _tutorial_do_sequence([1, 2, 3], _game_round)
+	if _game_round != game_round: return
+	await _tutorial_do_sequence([3, 0, 0], _game_round)
+	if _game_round != game_round: return
+
+	tutorial_done.emit()
+
 	reset_game = false
 	running = false
 

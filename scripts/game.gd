@@ -7,6 +7,7 @@ extends Node
 @onready var motion_fx: Node = %GameMotionFX
 
 var game_is_running: bool = false
+var tutorial_is_running: bool = false
 
 @export var game_time: float = 90
 
@@ -52,14 +53,18 @@ func _lose_time(time: float) -> void:
 	game_timer.start(current_time - time)
 
 func _correct() -> void:
-	_add_time(3)
-	%ScoreLabel.text = str(simon.score)
+	if not tutorial_is_running:
+		_add_time(3)
+		%ScoreLabel.text = str(simon.score)
+		%Persistent.save_game()
 	motion_fx.correct()
 	_flash_correct()
 
 func _wrong() -> void:
-	_lose_time(7.5)
-	%ScoreLabel.text = str(simon.score)
+	if not tutorial_is_running:
+		_lose_time(7.5)
+		%ScoreLabel.text = str(simon.score)
+		%Persistent.save_game()
 	motion_fx.incorrect()
 	_flash_incorrect()
 
@@ -79,10 +84,13 @@ func _on_start_game(tutorial: bool) -> void:
 	if game_is_running: return
 	game_is_running = true
 	main_menu.hide()
-	%TimerContainer.show()
-	%ScoreLabel.show()
+	if not tutorial:
+		%TimerContainer.show()
+		%ScoreLabel.show()
+		game_timer.start(game_time + 2.5)
+	else:
+		tutorial_is_running = true
 	simon.show()
-	game_timer.start(game_time + 2.5)
 	motion_fx.start()
 	await get_tree().create_timer(2.5).timeout
 	if not game_is_running: return
@@ -96,15 +104,29 @@ func _ready() -> void:
 	simon.new_rule.connect(_on_new_rule)
 	simon.correct.connect(_correct)
 	simon.wrong.connect(_wrong)
+	simon.tutorial_done.connect(_on_tutorial_done)
 	main_menu.game_start.connect(_on_start_game)
 	%Persistent.load_game()
-	if (%Persistent.played_tutorial):
-		pass # start tutorial
-	else:
-		pass # do nothing, show menu
-		
+	%Sound._volume_linear = %Persistent.volume_linear
+	if (not %Persistent.played_tutorial):
+		tutorial_is_running = true
+		_on_start_game(true)
+
+func _on_tutorial_done() -> void:
+	tutorial_is_running = false
+	game_is_running = false
+	%Persistent.played_tutorial = true
+	%Persistent.save_game()
+	simon.reset()
+	_disable_input()
+	world.environment.background_color = Color(212/255.0, 220/255.0, 219/255.0)
+	%RulesControl.clear_rules()
+	main_menu.show()
+	%MainMenu._ready()
 	
 func _on_time_out() -> void:
+	%Persistent.high_score = max(%Persistent.high_score, simon.score)
+	%Persistent.save_game()
 	if not game_is_running: return
 	game_is_running = false
 	game_timer.stop()
@@ -118,6 +140,7 @@ func _on_time_out() -> void:
 	%TimerContainer.hide()
 	%ScoreLabel.hide()
 	%ScoreLabel.text = str(0)
+	%MainMenu._ready()
 
 func _process(_delta: float) -> void:
 	%TimerLabel.text = "%.1f" % game_timer.time_left
