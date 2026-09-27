@@ -131,6 +131,41 @@ func run_game() -> void:
 	reset_game = false
 	running = false
 
+func _tutorial_do_sequence(sequence: Array[int]) -> void:
+	current_sequence = sequence
+	var round := 0
+	while true:
+		_hint(0)
+		var success := await do_sequence(sequence, round)
+		if success:
+			break
+		round += 1
+		await get_tree().create_timer(0.3).timeout
+
+func _tutorial_add_rule(from: int, to: int) -> void:
+	ruleset.add_rule(from, to)
+	new_rule.emit(from, to)
+	await get_tree().create_timer(0.3).timeout
+
+func run_tutorial() -> void:
+	running = true
+	await _tutorial_do_sequence([2])
+	await _tutorial_do_sequence([1])
+	await _tutorial_do_sequence([0, 3])
+	await _tutorial_do_sequence([3, 1, 1])
+	await _tutorial_do_sequence([1, 0, 2])
+	
+	await get_tree().create_timer(0.4).timeout
+	
+	await _tutorial_add_rule(0, 2)
+	
+	await _tutorial_do_sequence([0])
+	await _tutorial_do_sequence([2, 0, 2])
+	await _tutorial_do_sequence([1, 2, 3])
+	await _tutorial_do_sequence([3, 0, 0])
+	reset_game = false
+	running = false
+
 func reset() -> void:
 	score = 0
 	streak = 0
