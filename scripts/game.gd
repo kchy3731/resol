@@ -13,10 +13,10 @@ const WORD_GUIDE: Dictionary[int, StringName] = {
 }
 
 const COLOR_GUIDE: Dictionary[int, Color] = {
-	0: Color(0.933, 0.145, 0.145),
-	1: Color(0.145, 0.933, 0.2),
-	2: Color(0.933, 0.835, 0.145),
-	3: Color(0.145, 0.286, 0.933),
+	0: Color(0.95, 0.3, 0.3), # red
+	1: Color(0.3, 0.8, 0.3), # green
+	2: Color(0.7, 0.7, 0.25), # yellow
+	3: Color(0.3, 0.4, 0.95), # blue
 }
 
 @onready var buttons: Array[SimonButton] = [
@@ -134,6 +134,6 @@ func run() -> void:
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("DEBUG_y"):
-		await _flash_correct()
+		_introduce_rule()
 	if Input.is_action_just_pressed("DEBUG_r"):
 		await _flash_incorrect()
