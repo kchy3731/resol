@@ -3,7 +3,11 @@
 [ext_resource type="Script" uid="uid://bnbkmc3wtlw5h" path="res://scripts/game.gd" id="1_dg77c"]
 [ext_resource type="Script" uid="uid://do60mst3fbhbt" path="res://scripts/simon.gd" id="1_h2yge"]
 [ext_resource type="Material" uid="uid://by7rp188dkh5q" path="res://assets/materials/base.tres" id="2_7mycd"]
+<<<<<<< HEAD
 [ext_resource type="Script" uid="uid://ch8ya2jjmcp7j" path="res://game_motion_fx.gd" id="2_82xsv"]
+=======
+[ext_resource type="Script" uid="uid://dbiy0mafg4p6u" path="res://scripts/sound.gd" id="2_82xsv"]
+>>>>>>> ca5ef96204527365e2fdb201c6c4905b1f022656
 [ext_resource type="Script" uid="uid://cvsgo3hj7kj4a" path="res://scripts/simon_motion_fx.gd" id="2_efxa6"]
 [ext_resource type="Script" uid="uid://divkbh3g5io16" path="res://scripts/button.gd" id="3_1bvp3"]
 [ext_resource type="Material" uid="uid://cwvga8xpd64ly" path="res://assets/materials/red_unlit.tres" id="3_272bh"]
@@ -516,6 +520,10 @@ script = ExtResource("2_82xsv")
 unique_name_in_owner = true
 wait_time = 92.5
 one_shot = true
+
+[node name="Sound" type="Node" parent="." unique_id=1079793726]
+unique_name_in_owner = true
+script = ExtResource("2_82xsv")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1817556914]
 unique_name_in_owner = true

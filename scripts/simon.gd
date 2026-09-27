@@ -76,6 +76,7 @@ func _hint(_game_round: int) -> void:
 		for i in range(current_sequence.size()):
 			if go_around != this_go_around or reset_game or _game_round != game_round: break
 			var button_idx := current_sequence[i]
+			%Sound.ring_sounds[button_idx].play()
 			await rings[button_idx].flash()
 			if _game_round != game_round: return
 			await get_tree().create_timer(0.1).timeout
