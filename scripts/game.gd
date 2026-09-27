@@ -1,8 +1,14 @@
 extends Node
 
 @onready var world: WorldEnvironment = %WorldEnvironment
+@onready var main_menu: Control = %MainMenu
 @onready var simon: Node = %Simon
 @onready var game_timer: Timer = %GameTimer
+@onready var motion_fx: Node = %GameMotionFX
+
+var game_is_running: bool = false
+
+@export var game_time: float = 90
 
 const WORD_GUIDE: Dictionary[int, StringName] = {
 	0: "Red",
@@ -20,32 +26,39 @@ const COLOR_GUIDE: Dictionary[int, Color] = {
 
 func _flash_correct() -> void:
 	world.environment.background_color = Color(0.26, 0.9, 0.3)
-	await simon.flash_correct()
+	await get_tree().create_timer(0.8).timeout
 	world.environment.background_color = Color(212/255.0, 220/255.0, 219/255.0)
 
 func _flash_incorrect() -> void:
 	world.environment.background_color = Color(0.9, 0.2, 0.2)
-	await simon.flash_incorrect()
+	await get_tree().create_timer(0.8).timeout
 	world.environment.background_color = Color(212/255.0, 220/255.0, 219/255.0)
 
 func _add_time(time: float) -> void:
 	%TimerUpdate.add_time(time)
 	var current_time := game_timer.time_left
-	game_timer.wait_time = current_time + time
-	game_timer.start()
+	game_timer.start(current_time + time)
 
 func _lose_time(time: float) -> void:
 	%TimerUpdate.lose_time(time)
 	var current_time := game_timer.time_left
-	game_timer.wait_time = current_time - time
-	game_timer.start()
+	if current_time - time <= 0:
+		game_timer.wait_time = 0
+		game_timer.stop()
+		_on_time_out()
+		return
+	game_timer.start(current_time - time)
 
 func _correct() -> void:
+	_add_time(3)
 	%ScoreLabel.text = str(simon.score)
+	motion_fx.correct()
 	_flash_correct()
 
 func _wrong() -> void:
+	_lose_time(7.5)
 	%ScoreLabel.text = str(simon.score)
+	motion_fx.incorrect()
 	_flash_incorrect()
 
 func _disable_input() -> void:
@@ -60,17 +73,34 @@ func _on_new_rule(input: int, output: int) -> void:
 		%RulesControl.pop_label()
 	%RulesControl.draw()
 
+func _on_start_game() -> void:
+	if game_is_running: return
+	game_is_running = true
+	main_menu.hide()
+	%TimerContainer.show()
+	%ScoreLabel.show()
+	simon.show()
+	game_timer.start(game_time + 2.5)
+	motion_fx.start()
+	await get_tree().create_timer(2.5).timeout
+	simon.run_game()
+
 func _ready() -> void:
 	simon.new_rule.connect(_on_new_rule)
 	simon.correct.connect(_correct)
 	simon.wrong.connect(_wrong)
-	await get_tree().create_timer(2).timeout
-	simon.run_game()
-	game_timer.start()
+	main_menu.game_start.connect(_on_start_game)
 	
 func _on_time_out() -> void:
-	# player loses here
-	pass
+	simon.pause_game = true
+	await motion_fx.lose()
+	simon.reset()
+	game_is_running = false
+	main_menu.show()
+	%RulesControl.clear_rules()
+	%TimerContainer.hide()
+	%ScoreLabel.hide()
+	%ScoreLabel.text = str(0)
 
 func _process(_delta: float) -> void:
 	%TimerLabel.text = "%.1f" % game_timer.time_left

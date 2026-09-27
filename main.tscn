@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://bnbkmc3wtlw5h" path="res://scripts/game.gd" id="1_dg77c"]
 [ext_resource type="Script" uid="uid://do60mst3fbhbt" path="res://scripts/simon.gd" id="1_h2yge"]
 [ext_resource type="Material" uid="uid://by7rp188dkh5q" path="res://assets/materials/base.tres" id="2_7mycd"]
+[ext_resource type="Script" uid="uid://ch8ya2jjmcp7j" path="res://game_motion_fx.gd" id="2_82xsv"]
 [ext_resource type="Script" uid="uid://cvsgo3hj7kj4a" path="res://scripts/simon_motion_fx.gd" id="2_efxa6"]
 [ext_resource type="Script" uid="uid://divkbh3g5io16" path="res://scripts/button.gd" id="3_1bvp3"]
 [ext_resource type="Material" uid="uid://cwvga8xpd64ly" path="res://assets/materials/red_unlit.tres" id="3_272bh"]
@@ -15,9 +16,10 @@
 [ext_resource type="Material" uid="uid://cgq6o4471k0qa" path="res://assets/materials/blue_lit.tres" id="11_w48qg"]
 [ext_resource type="Theme" uid="uid://bidmopxgbhtln" path="res://theme.tres" id="13_ycdy4"]
 [ext_resource type="Script" uid="uid://df6qi7w3785dk" path="res://rules_control.gd" id="15_vivmo"]
-[ext_resource type="Script" uid="uid://cqp204o6kg084" path="res://scripts/input_handler.gd" id="15_yaehf"]
+[ext_resource type="Script" uid="uid://cqp204o6kg084" path="res://scripts/menu_input.gd" id="15_yaehf"]
 [ext_resource type="Shader" uid="uid://dq21mqfytk74s" path="res://postprocess.gdshader" id="16_2cqfq"]
 [ext_resource type="PackedScene" uid="uid://vh37iae3l3fk" path="res://ui/main_menu.tscn" id="16_074og"]
+[ext_resource type="Script" uid="uid://bye2xmi5ws3cj" path="res://screen_size.gd" id="16_getpj"]
 [ext_resource type="Script" uid="uid://dr8j2oqa1a5pk" path="res://timer_update_container.gd" id="16_yaehf"]
 
 [sub_resource type="Environment" id="Environment_057v1"]
@@ -27,6 +29,9 @@ glow_intensity = 0.37
 glow_bloom = 0.22
 glow_hdr_scale = 1.32
 glow_hdr_luminance_cap = 33.11
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_getpj"]
+viewport_path = NodePath("SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_60k71"]
 resource_name = "Base"
@@ -383,23 +388,152 @@ shader_parameter/soft = 0.5
 
 [node name="Game" type="Node3D" unique_id=1628286441]
 script = ExtResource("1_dg77c")
+game_time = 2.0
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1630253912]
+transparent_bg = true
+canvas_item_default_texture_filter = 0
+oversampling = false
+size = Vector2i(1152, 684)
+render_target_update_mode = 4
+script = ExtResource("16_getpj")
+
+[node name="GameUI" type="CanvasLayer" parent="SubViewport" unique_id=897779800]
+layer = 2
+
+[node name="ColorRect" type="ColorRect" parent="SubViewport/GameUI" unique_id=1802536028]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="SubViewport/GameUI" unique_id=1972659112]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("13_ycdy4")
+
+[node name="RulesControl" type="Control" parent="SubViewport/GameUI/Control" unique_id=1124323012]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -342.0
+offset_top = 75.0
+offset_right = 342.0
+offset_bottom = 224.0
+grow_horizontal = 2
+script = ExtResource("15_vivmo")
+
+[node name="TimerContainer" type="Control" parent="SubViewport/GameUI/Control" unique_id=1755400128]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+
+[node name="StopwLabel" type="Label" parent="SubViewport/GameUI/Control/TimerContainer" unique_id=1260343131]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -235.0
+offset_top = 21.0
+offset_right = -175.0
+offset_bottom = 44.0
+grow_horizontal = 2
+text = "STOPW."
+
+[node name="TimerLabel" type="Label" parent="SubViewport/GameUI/Control/TimerContainer" unique_id=1093062832]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -321.0
+offset_top = 32.0
+offset_right = -62.0
+offset_bottom = 143.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 80
+
+[node name="TimerUpdate" type="Control" parent="SubViewport/GameUI/Control/TimerContainer" unique_id=1911142858]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = -310.0
+offset_top = 81.0
+offset_right = -270.0
+offset_bottom = 121.0
+script = ExtResource("16_yaehf")
+
+[node name="ScoreContainer" type="Control" parent="SubViewport/GameUI/Control" unique_id=1899582175]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -181.0
+offset_right = 240.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ScoreLabel" type="Label" parent="SubViewport/GameUI/Control/ScoreContainer" unique_id=601822116]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -74.0
+offset_top = -163.0
+offset_right = 74.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 72
+text = "0"
+horizontal_alignment = 1
+
+[node name="Node2D" type="Node2D" parent="SubViewport" unique_id=1837515251]
+
+[node name="GameMotionFX" type="Node" parent="." unique_id=849831303]
+unique_name_in_owner = true
+script = ExtResource("2_82xsv")
 
 [node name="GameTimer" type="Timer" parent="." unique_id=919197068]
 unique_name_in_owner = true
-wait_time = 90.0
+wait_time = 92.5
 one_shot = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1817556914]
 unique_name_in_owner = true
 environment = SubResource("Environment_057v1")
 
+[node name="Sprite3D" type="Sprite3D" parent="." unique_id=2097452464]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.4525146)
+texture = SubResource("ViewportTexture_getpj")
+
 [node name="Camera3D" type="Camera3D" parent="." unique_id=37526919]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.245419)
-fov = 64.2
+fov = 65.0
 
 [node name="Simon" type="Node3D" parent="." unique_id=1576439590]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.35778552, -0.9338038, 0, 0.9338038, 0.35778552, 0, 0, 0)
+visible = false
 script = ExtResource("1_h2yge")
 
 [node name="MotionFX" type="Node" parent="Simon" unique_id=225199472 node_paths=PackedStringArray("base", "red_button", "green_button", "yellow_button", "blue_button")]
@@ -502,109 +636,10 @@ grow_vertical = 2
 theme = ExtResource("13_ycdy4")
 metadata/_edit_use_anchors_ = true
 
-[node name="InputHandler" type="Control" parent="Control" unique_id=1729584102]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("15_yaehf")
-
 [node name="MainMenu" parent="Control" unique_id=1502984440 instance=ExtResource("16_074og")]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
-
-[node name="RulesControl" type="Control" parent="Control" unique_id=2146970601]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -342.0
-offset_top = 106.0
-offset_right = 342.0
-offset_bottom = 255.0
-grow_horizontal = 2
-script = ExtResource("15_vivmo")
-
-[node name="RulesContainer" type="HFlowContainer" parent="Control" unique_id=1118076745]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -337.5
-offset_top = 142.0
-offset_right = 337.5
-offset_bottom = 224.0
-grow_horizontal = 2
-alignment = 1
-
-[node name="TimerContainer" type="Control" parent="Control" unique_id=1124561987]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -320.0
-offset_bottom = 180.0
-grow_horizontal = 0
-
-[node name="StopwLabel" type="Label" parent="Control/TimerContainer" unique_id=1582662004]
-layout_mode = 0
-offset_left = 122.0
-offset_top = 31.0
-offset_right = 182.0
-offset_bottom = 54.0
-text = "STOPW."
-
-[node name="TimerLabel" type="Label" parent="Control/TimerContainer" unique_id=1571408765]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 48.0
-offset_top = 31.0
-offset_right = 268.0
-offset_bottom = 142.0
-theme_override_font_sizes/font_size = 80
-
-[node name="TimerUpdate" type="Control" parent="Control/TimerContainer" unique_id=435876261]
-unique_name_in_owner = true
-anchors_preset = 0
-offset_left = -67.0
-offset_top = 89.0
-offset_right = -27.0
-offset_bottom = 129.0
-script = ExtResource("16_yaehf")
-
-[node name="ScoreContainer" type="Control" parent="Control" unique_id=1070441037]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -240.0
-offset_top = -181.0
-offset_right = 240.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="ScoreLabel" type="Label" parent="Control/ScoreContainer" unique_id=1486649735]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -74.0
-offset_top = -163.0
-offset_right = 74.0
-offset_bottom = -38.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_font_sizes/font_size = 72
-text = "0"
-horizontal_alignment = 1
+script = ExtResource("15_yaehf")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Control" unique_id=2089363583]
 

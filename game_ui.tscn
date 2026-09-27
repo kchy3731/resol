@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://couai0u40nkdb"]
+
+[ext_resource type="Theme" uid="uid://bidmopxgbhtln" path="res://theme.tres" id="1_mj8uy"]
+[ext_resource type="Script" uid="uid://df6qi7w3785dk" path="res://rules_control.gd" id="2_3rlp6"]
+[ext_resource type="Script" uid="uid://dr8j2oqa1a5pk" path="res://timer_update_container.gd" id="3_obik5"]
+
+[node name="GameUI" type="CanvasLayer" unique_id=897779800]
+layer = 2
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1802536028]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="." unique_id=1972659112]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_mj8uy")
+
+[node name="RulesControl" type="Control" parent="Control" unique_id=1124323012]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -342.0
+offset_top = 75.0
+offset_right = 342.0
+offset_bottom = 224.0
+grow_horizontal = 2
+script = ExtResource("2_3rlp6")
+
+[node name="TimerContainer" type="Control" parent="Control" unique_id=1755400128]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+
+[node name="StopwLabel" type="Label" parent="Control/TimerContainer" unique_id=1260343131]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -235.0
+offset_top = 21.0
+offset_right = -175.0
+offset_bottom = 44.0
+grow_horizontal = 2
+text = "STOPW."
+
+[node name="TimerLabel" type="Label" parent="Control/TimerContainer" unique_id=1093062832]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -321.0
+offset_top = 32.0
+offset_right = -62.0
+offset_bottom = 143.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 80
+
+[node name="TimerUpdate" type="Control" parent="Control/TimerContainer" unique_id=1911142858]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = -310.0
+offset_top = 81.0
+offset_right = -270.0
+offset_bottom = 121.0
+script = ExtResource("3_obik5")
+
+[node name="ScoreContainer" type="Control" parent="Control" unique_id=1899582175]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -181.0
+offset_right = 240.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ScoreLabel" type="Label" parent="Control/ScoreContainer" unique_id=601822116]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -74.0
+offset_top = -163.0
+offset_right = 74.0
+offset_bottom = -38.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 72
+text = "0"
+horizontal_alignment = 1

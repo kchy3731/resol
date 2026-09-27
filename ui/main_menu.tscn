@@ -1,71 +1,89 @@
 [gd_scene format=3 uid="uid://vh37iae3l3fk"]
 
+[ext_resource type="Theme" uid="uid://0trbspehab5s" path="res://menu_theme.tres" id="1_t7e0r"]
+
 [node name="MainMenu" type="Control" unique_id=1502984440]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_t7e0r")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1471263296]
+[node name="DarkBG" type="ColorRect" parent="." unique_id=590614125]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.21410304, 0.21410304, 0.21410301, 1)
+color = Color(0, 0, 0, 0.78431374)
 
-[node name="Logo" type="RichTextLabel" parent="." unique_id=1691889928]
-visible = false
+[node name="BlueBG" type="ColorRect" parent="." unique_id=1471263296]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 176.0
+offset_top = 17.0
+offset_right = -176.0
+offset_bottom = -17.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_outline_size = 10
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/normal_font_size = 100
-bbcode_enabled = true
-text = "[color=red]r[/color][color=green]e[/color][color=yellow]s[/color][color=blue]o[/color]l"
-horizontal_alignment = 1
+color = Color(0.14496985, 0.1273776, 1, 1)
 
-[node name="MenuButtons" type="VBoxContainer" parent="." unique_id=1856333735]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(256, 256)
+[node name="ColorRect" type="ColorRect" parent="BlueBG" unique_id=1007258361]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 72.0
+grow_horizontal = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="BlueBG" unique_id=1589968660]
+layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
-anchor_top = 0.693
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.693
-offset_left = -128.0
-offset_top = -128.06403
-offset_right = 128.0
-offset_bottom = 127.935974
+anchor_bottom = 0.5
+offset_left = -366.0
+offset_top = -196.0
+offset_right = -182.25
+offset_bottom = -113.25
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(4, 4)
+theme = ExtResource("1_t7e0r")
+theme_override_constants/line_separation = 3
+bbcode_enabled = true
+text = "ENTER - PLAY
+T - TUTORIAL
+E - VFX       9/0 - VOL"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Start" type="Button" parent="MenuButtons" unique_id=399223231]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_font_sizes/font_size = 32
-text = "Start"
-
-[node name="Exit" type="Button" parent="MenuButtons" unique_id=1762043552]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_font_sizes/font_size = 32
-text = "Exit"
+[node name="Title" type="RichTextLabel" parent="BlueBG" unique_id=43252092]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -367.0
+offset_top = -46.0
+offset_right = -183.25
+offset_bottom = -5.5
+grow_horizontal = 2
+scale = Vector2(4, 4)
+theme = ExtResource("1_t7e0r")
+theme_override_colors/default_color = Color(0, 0, 1, 1)
+bbcode_enabled = true
+text = "------------- RESOL -------------"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=917918803]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -76,23 +94,3 @@ theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
-
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer" unique_id=1589968660]
-layout_mode = 2
-theme_override_font_sizes/normal_font_size = 32
-bbcode_enabled = true
-text = "[color=red]R[/color][color=green]E[/color][color=yellow]S[/color][color=#66F]O[/color]L
-
-PRESS [ENTER] TO BEGIN
-
-PRESS [T] FOR TUTORIAL
-
-PRESS [ESCAPE] TO EXIT
-
-PRESS [E] TO TOGGLE EFFECTS
-
-PRESS [+] AND [-] TO CHANGE VOLUME
-"
-
-[connection signal="pressed" from="MenuButtons/Start" to="." method="_on_start_pressed"]
-[connection signal="pressed" from="MenuButtons/Exit" to="." method="_on_exit_pressed"]
