@@ -14,6 +14,7 @@
 [ext_resource type="Material" uid="uid://p6bh8u5dlh7w" path="res://assets/materials/yellow_lit.tres" id="9_ycdy4"]
 [ext_resource type="Material" uid="uid://cgq6o4471k0qa" path="res://assets/materials/blue_lit.tres" id="11_w48qg"]
 [ext_resource type="Theme" uid="uid://bidmopxgbhtln" path="res://theme.tres" id="13_ycdy4"]
+[ext_resource type="Script" uid="uid://df6qi7w3785dk" path="res://rules_control.gd" id="15_vivmo"]
 
 [sub_resource type="Environment" id="Environment_057v1"]
 background_mode = 1
@@ -490,16 +491,31 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("13_ycdy4")
 
-[node name="RulesContainer" type="VFlowContainer" parent="Control" unique_id=1251084929]
+[node name="RulesControl" type="Control" parent="Control" unique_id=2146970601]
 unique_name_in_owner = true
 layout_mode = 1
-offset_left = 150.0
-offset_top = 29.0
-offset_right = 425.0
-offset_bottom = 331.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -342.0
+offset_top = 106.0
+offset_right = 342.0
+offset_bottom = 255.0
+grow_horizontal = 2
+script = ExtResource("15_vivmo")
 
-[node name="Label" type="Label" parent="Control/RulesContainer" unique_id=1901588442]
-layout_mode = 2
+[node name="RulesContainer" type="HFlowContainer" parent="Control" unique_id=1118076745]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -337.5
+offset_top = 142.0
+offset_right = 337.5
+offset_bottom = 224.0
+grow_horizontal = 2
+alignment = 1
 
 [node name="TimerContainer" type="Control" parent="Control" unique_id=1124561987]
 layout_mode = 1
@@ -528,7 +544,7 @@ offset_bottom = 132.0
 theme_override_font_sizes/font_size = 72
 text = "90.0s"
 
-[node name="Control" type="Control" parent="Control" unique_id=1070441037]
+[node name="ScoreContainer" type="Control" parent="Control" unique_id=1070441037]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -541,7 +557,7 @@ offset_right = 240.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="ScoreLabel" type="Label" parent="Control/Control" unique_id=1486649735]
+[node name="ScoreLabel" type="Label" parent="Control/ScoreContainer" unique_id=1486649735]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7

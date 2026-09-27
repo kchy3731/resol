@@ -50,15 +50,23 @@ func _flash_incorrect() -> void:
 func _introduce_rule() -> void:
 	var rule := ruleset.produce_rule() # [from, to]
 
-	var ch = %RulesContainer.get_children()
-	if ch.size() >= 4:
-		ch[0].queue_free()
+	var count = %RulesControl.labels.size()
+	if count >= 4:
+		%RulesControl.pop_label()
 
-	var label: Label = Label.new()
-	label.text = WORD_GUIDE[rule[0]]
-	label.add_theme_color_override("font_color", COLOR_GUIDE[rule[1]])
-	label.add_theme_font_size_override("font_size", 32)
-	%RulesContainer.add_child(label)
+	var label_text = WORD_GUIDE[rule[0]]
+	%RulesControl.add_label(label_text, COLOR_GUIDE[rule[1]])
+	await %RulesControl.draw()
+
+	# var ch = %RulesContainer.get_children()
+	# if ch.size() >= 4:
+		# ch[0].queue_free()
+
+	# var label: Label = Label.new()
+	# label.text = "  " + WORD_GUIDE[rule[0]] + "  "
+	# label.add_theme_color_override("font_color", COLOR_GUIDE[rule[1]])
+	# label.add_theme_font_size_override("font_size", 48)
+	# %RulesContainer.add_child(label)
 
 
 func _disable_input() -> void:
@@ -116,9 +124,10 @@ func _ready() -> void:
 func run() -> void:
 	await get_tree().create_timer(2).timeout
 	while true:
+		@warning_ignore("integer_division")
 		current_sequence = make_sequence(3 + max(streak / 2 - 3, 0))
 		if score > 0 and streak != 0 and score % 2 == 0:
-			_introduce_rule()
+			await _introduce_rule()
 		_hint()
 		await do_sequence(current_sequence)
 		await get_tree().create_timer(0.3).timeout
