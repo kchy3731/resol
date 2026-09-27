@@ -9,6 +9,7 @@ var running: bool = false
 
 var pause_game: bool = false
 var reset_game: bool = false
+var input_enabled: bool = false
 
 var inputs: Array[StringName] = ["game_red", "game_green", "game_yellow", "game_blue"]
 @onready var buttons: Array
@@ -49,10 +50,13 @@ func flash_incorrect(_game_round: int) -> void:
 	_flash_down_all()
 
 func _process_input() -> void:
+	if not input_enabled: return
 	for i in range(inputs.size()):
 		if Input.is_action_just_pressed(inputs[i]):
+			%Sound.keydown_sounds[i].play()
 			buttons[i].flash_up()
 		elif Input.is_action_just_released(inputs[i]):
+			%Sound.keyup_sounds[i].play()
 			buttons[i].flash_down()
 			button_pressed.emit(i)
 
@@ -107,6 +111,7 @@ func do_sequence(sequence: Array[int], _game_round: int) -> bool:
 
 func run_game() -> void:
 	if running: return
+	input_enabled = true
 	running = true
 	game_round += 1
 	go_around = 0
@@ -135,6 +140,7 @@ func reset() -> void:
 	ruleset = Ruleset.new()
 	pause_game = false
 	reset_game = true
+	input_enabled = false
 	running = false
 	_flash_down_all()
 

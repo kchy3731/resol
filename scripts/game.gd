@@ -27,11 +27,13 @@ const COLOR_GUIDE: Dictionary[int, Color] = {
 func _flash_correct() -> void:
 	world.environment.background_color = Color(0.26, 0.9, 0.3)
 	await get_tree().create_timer(0.8).timeout
+	if not game_is_running: return
 	world.environment.background_color = Color(212/255.0, 220/255.0, 219/255.0)
 
 func _flash_incorrect() -> void:
 	world.environment.background_color = Color(0.9, 0.2, 0.2)
 	await get_tree().create_timer(0.8).timeout
+	if not game_is_running: return
 	world.environment.background_color = Color(212/255.0, 220/255.0, 219/255.0)
 
 func _add_time(time: float) -> void:
@@ -62,10 +64,10 @@ func _wrong() -> void:
 	_flash_incorrect()
 
 func _disable_input() -> void:
-	pass
+	simon.input_enabled = false
 
 func _enable_input() -> void:
-	pass
+	simon.input_enabled = true
 
 func _on_new_rule(input: int, output: int) -> void:
 	%RulesControl.add_label(WORD_GUIDE[input], COLOR_GUIDE[output])
@@ -83,7 +85,9 @@ func _on_start_game() -> void:
 	game_timer.start(game_time + 2.5)
 	motion_fx.start()
 	await get_tree().create_timer(2.5).timeout
+	if not game_is_running: return
 	simon.run_game()
+	simon.input_enabled = true
 
 func _ready() -> void:
 	simon.new_rule.connect(_on_new_rule)
@@ -92,10 +96,14 @@ func _ready() -> void:
 	main_menu.game_start.connect(_on_start_game)
 	
 func _on_time_out() -> void:
+	if not game_is_running: return
+	game_is_running = false
+	game_timer.stop()
 	simon.pause_game = true
 	await motion_fx.lose()
 	simon.reset()
-	game_is_running = false
+	_disable_input()
+	world.environment.background_color = Color(212/255.0, 220/255.0, 219/255.0)
 	main_menu.show()
 	%RulesControl.clear_rules()
 	%TimerContainer.hide()

@@ -3,11 +3,7 @@
 [ext_resource type="Script" uid="uid://bnbkmc3wtlw5h" path="res://scripts/game.gd" id="1_dg77c"]
 [ext_resource type="Script" uid="uid://do60mst3fbhbt" path="res://scripts/simon.gd" id="1_h2yge"]
 [ext_resource type="Material" uid="uid://by7rp188dkh5q" path="res://assets/materials/base.tres" id="2_7mycd"]
-<<<<<<< HEAD
-[ext_resource type="Script" uid="uid://ch8ya2jjmcp7j" path="res://game_motion_fx.gd" id="2_82xsv"]
-=======
 [ext_resource type="Script" uid="uid://dbiy0mafg4p6u" path="res://scripts/sound.gd" id="2_82xsv"]
->>>>>>> ca5ef96204527365e2fdb201c6c4905b1f022656
 [ext_resource type="Script" uid="uid://cvsgo3hj7kj4a" path="res://scripts/simon_motion_fx.gd" id="2_efxa6"]
 [ext_resource type="Script" uid="uid://divkbh3g5io16" path="res://scripts/button.gd" id="3_1bvp3"]
 [ext_resource type="Material" uid="uid://cwvga8xpd64ly" path="res://assets/materials/red_unlit.tres" id="3_272bh"]
@@ -15,6 +11,7 @@
 [ext_resource type="Material" uid="uid://13rxlln4v8th" path="res://assets/materials/red_lit.tres" id="5_efxa6"]
 [ext_resource type="Material" uid="uid://du81tcw8cffia" path="res://assets/materials/yellow_unlit.tres" id="5_kek77"]
 [ext_resource type="Material" uid="uid://d18dx6k0ttppl" path="res://assets/materials/blue_unlit.tres" id="6_4c57u"]
+[ext_resource type="Script" uid="uid://ch8ya2jjmcp7j" path="res://game_motion_fx.gd" id="6_ryguw"]
 [ext_resource type="Material" uid="uid://c8smjkvh5txxy" path="res://assets/materials/green_lit.tres" id="7_dg77c"]
 [ext_resource type="Material" uid="uid://p6bh8u5dlh7w" path="res://assets/materials/yellow_lit.tres" id="9_ycdy4"]
 [ext_resource type="Material" uid="uid://cgq6o4471k0qa" path="res://assets/materials/blue_lit.tres" id="11_w48qg"]
@@ -392,7 +389,7 @@ shader_parameter/soft = 0.5
 
 [node name="Game" type="Node3D" unique_id=1628286441]
 script = ExtResource("1_dg77c")
-game_time = 2.0
+game_time = 40.0
 
 [node name="SubViewport" type="SubViewport" parent="." unique_id=1630253912]
 transparent_bg = true
@@ -514,16 +511,12 @@ horizontal_alignment = 1
 
 [node name="GameMotionFX" type="Node" parent="." unique_id=849831303]
 unique_name_in_owner = true
-script = ExtResource("2_82xsv")
+script = ExtResource("6_ryguw")
 
 [node name="GameTimer" type="Timer" parent="." unique_id=919197068]
 unique_name_in_owner = true
 wait_time = 92.5
 one_shot = true
-
-[node name="Sound" type="Node" parent="." unique_id=1079793726]
-unique_name_in_owner = true
-script = ExtResource("2_82xsv")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1817556914]
 unique_name_in_owner = true
@@ -543,6 +536,10 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.35778552, -0.9338038, 0, 0.9338038, 0.35778552, 0, 0, 0)
 visible = false
 script = ExtResource("1_h2yge")
+
+[node name="Sound" type="Node" parent="Simon" unique_id=1079793726]
+unique_name_in_owner = true
+script = ExtResource("2_82xsv")
 
 [node name="MotionFX" type="Node" parent="Simon" unique_id=225199472 node_paths=PackedStringArray("base", "red_button", "green_button", "yellow_button", "blue_button")]
 script = ExtResource("2_efxa6")
@@ -644,6 +641,16 @@ grow_vertical = 2
 theme = ExtResource("13_ycdy4")
 metadata/_edit_use_anchors_ = true
 
+[node name="SoundBar" type="Control" parent="Control" unique_id=833812799]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="Control/SoundBar" unique_id=293601146]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="MainMenu" parent="Control" unique_id=1502984440 instance=ExtResource("16_074og")]
 unique_name_in_owner = true
 layout_mode = 1
@@ -659,5 +666,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1582922208]
 
 [connection signal="timeout" from="GameTimer" to="." method="_on_time_out"]
